@@ -15,7 +15,7 @@ build:
   number: 0
   script: "CC=${CXX} EIGEN_INC=${PREFIX}/include/eigen3 ${PYTHON} -m pip install --no-deps . -vv"  # [unix]
   script: "set EIGEN_INC=%LIBRARY_INC%\\eigen3 & %PYTHON% -m pip install --no-deps . -vv"  # [win]
-  skip: true  # [py2k or win]
+  skip: true  # [py2k]
 
 requirements:
   build:
