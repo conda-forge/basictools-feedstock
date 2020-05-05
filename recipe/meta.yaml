@@ -1,4 +1,4 @@
-{% set version = "1.1" %}
+{% set version = "1.2" %}
 
 package:
   name: basictools
@@ -6,15 +6,15 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/v{{ version }}/basic-tools-v{{ version }}.tar.bz2
-  sha256: 7e4354044714c5a5d815e000109940fbb7dd4edce3140a8b51bcc04ee720c333
+  sha256: 868f397d3b6454178908b94ac9caaeeae0d88d11476b3a5ba13f1356d060c581
   patches:
     # disable mkl, openmp
     - setup.patch
 
 build:
   number: 0
-  script: "CC=${CXX} EIGEN_INC=${PREFIX}/include/eigen3 ${PYTHON} -m pip install --no-deps . -vv"  # [unix]
-  script: "set EIGEN_INC=%LIBRARY_INC%\\eigen3 & %PYTHON% -m pip install --no-deps . -vv"  # [win]
+  script: CC=${CXX} EIGEN_INC=${PREFIX}/include/eigen3 ${PYTHON} -m pip install --no-deps . -vv  # [unix]
+  script: set EIGEN_INC=%LIBRARY_INC%\eigen3 & %PYTHON% -m pip install --no-deps . -vv  # [win]
   skip: true  # [py2k or win]
 
 requirements:
