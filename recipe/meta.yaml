@@ -12,7 +12,7 @@ source:
     - setup.patch
 
 build:
-  number: 0
+  number: 1
   script: CC=${CXX} EIGEN_INC=${PREFIX}/include/eigen3 ${PYTHON} -m pip install --no-deps . -vv  # [unix]
   script: set EIGEN_INC=%LIBRARY_INC%\eigen3 & %PYTHON% -m pip install --no-deps . -vv  # [win]
   skip: true  # [win]
