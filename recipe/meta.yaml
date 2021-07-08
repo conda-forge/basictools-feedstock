@@ -1,4 +1,4 @@
-{% set version = "1.5" %}
+{% set version = "1.6" %}
 
 package:
   name: basictools
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/v{{ version }}/basic-tools-v{{ version }}.tar.bz2
-  sha256: 6a51099667287fce53e1def5c4128cd7652535f9ac264153476ffd22111d31fa
+  sha256: 3f9311d4ada0609eb5139a60f5b7abd35b8c251da8fd56b80d2c3e18dc63bdde
 
 build:
   number: 0
