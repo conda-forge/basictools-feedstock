@@ -9,7 +9,7 @@ source:
   sha256: 6a51099667287fce53e1def5c4128cd7652535f9ac264153476ffd22111d31fa
 
 build:
-  number: 0
+  number: 1
   script: CC=${CXX} EIGEN_INC=${PREFIX}/include/eigen3 BASICTOOLS_DISABLE_MKL=1 BASICTOOLS_DISABLE_OPENMP=1 ${PYTHON} -m pip install --no-deps . -vv  # [unix]
   script: set EIGEN_INC=%LIBRARY_INC%\eigen3 & set BASICTOOLS_DISABLE_MKL=1 & BASICTOOLS_DISABLE_OPENMP=1 & %PYTHON% -m pip install --no-deps . -vv  # [win]
   skip: true  # [win]
