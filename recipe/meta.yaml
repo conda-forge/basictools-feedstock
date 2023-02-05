@@ -1,4 +1,4 @@
-{% set version = "1.8.0" %}
+{% set version = "1.9.0" %}
 
 package:
   name: basictools
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/v{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: 58578eb0f74b3bfe05932253603ea2dc551cc58d14e850d6af62cbc293cc67a9
+  sha256: 8da105366ced8845a45e5d23d3e416afa158a602533fa26b78f5d208c6158ad9
 
 build:
   number: 0
@@ -51,9 +51,6 @@ requirements:
     - mkl
     - pycgns
     - networkx
-
-#    - meshio
-#    - pyvista
 
 
 test:
