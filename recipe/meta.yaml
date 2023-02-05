@@ -1,17 +1,22 @@
-{% set version = "1.9.0" %}
+{% set version = "1.9.1" %}
 
 package:
   name: basictools
   version: {{ version }}
 
 source:
-  url: https://gitlab.com/DRTI/basic-tools/-/archive/v{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: 8da105366ced8845a45e5d23d3e416afa158a602533fa26b78f5d208c6158ad9
+  url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
+  sha256: 3ea5f1bd192a1772bc20d92b8b85f6d4fa0ca278fd60ae0871618cd2aed570e5
 
 build:
   number: 0
-  script: CC=${CXX} EIGEN_INC=${PREFIX}/include/eigen3 BASICTOOLS_DISABLE_MKL=1 BASICTOOLS_DISABLE_OPENMP=1 ${PYTHON} -m pip install --no-deps . -vv  # [unix]
-  script: set EIGEN_INC=%LIBRARY_INC%\eigen3 & set BASICTOOLS_DISABLE_MKL=1 & BASICTOOLS_DISABLE_OPENMP=1 & %PYTHON% -m pip install --no-deps . -vv  # [win]
+  script_env:
+    - CC=${CXX}  # [unix]
+    - EIGEN_INC=${PREFIX}/include/eigen3  # [unix]
+    - set EIGEN_INC=%LIBRARY_INC%\eigen3  # [win]
+    - BASICTOOLS_DISABLE_MKL=1
+    - BASICTOOLS_DISABLE_OPENMP=1
+  script: {{ PYTHON }} -m pip install --no-deps . -vv
   entry_points:
     - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
 
@@ -37,7 +42,7 @@ requirements:
     - python
     - {{ pin_compatible('numpy') }}
     - psutil
-    - pywin32 [win]
+    - pywin32  # [win]
     - pyparsing
     - scipy >=1.9
     - scikit-sparse  # [not win]
@@ -50,14 +55,23 @@ requirements:
     - eigency
     - mkl
     - pycgns
-    - networkx
+    - networkx >=3.0  # [not win]
+    - meshio
+    - pyvista
+    - scikit-learn
 
 
 test:
+  requires:
+    - OpenSSH  # [linux]
+    - mesalib >=21.0  # [linux]
+    - {{ cdt('libx11-devel') }}  # [linux]
+    - {{ cdt('mesa-libgl-devel') }}  # [linux]
   imports:
     - BasicTools
   commands :
-    - python -u -m BasicTools.Helpers.Tests -k Catalyst
+    - python -u -m BasicTools.Helpers.Tests -k Catalyst -k OpenInParaView -k PyVistaBridge -f  -s  # [not win]
+    - python -u -m BasicTools.Helpers.Tests -k Catalyst -k UnstructuredMeshGraphTools -k UtSplitter -k UtMerger -f -s  # [win]
 
 about:
   home: https://gitlab.com/DRTI/basic-tools
