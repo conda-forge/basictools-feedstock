@@ -1,53 +1,86 @@
-{% set version = "1.6" %}
+{% set version = "1.9.1" %}
 
 package:
   name: basictools
   version: {{ version }}
 
 source:
-  url: https://gitlab.com/DRTI/basic-tools/-/archive/v{{ version }}/basic-tools-v{{ version }}.tar.bz2
-  sha256: 3f9311d4ada0609eb5139a60f5b7abd35b8c251da8fd56b80d2c3e18dc63bdde
+  url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
+  sha256: 3ea5f1bd192a1772bc20d92b8b85f6d4fa0ca278fd60ae0871618cd2aed570e5
 
 build:
-  number: 1
-  script: CC=${CXX} EIGEN_INC=${PREFIX}/include/eigen3 BASICTOOLS_DISABLE_MKL=1 BASICTOOLS_DISABLE_OPENMP=1 ${PYTHON} -m pip install --no-deps . -vv  # [unix]
-  script: set EIGEN_INC=%LIBRARY_INC%\eigen3 & set BASICTOOLS_DISABLE_MKL=1 & BASICTOOLS_DISABLE_OPENMP=1 & %PYTHON% -m pip install --no-deps . -vv  # [win]
-  skip: true  # [win]
+  number: 0
+  script_env:
+    - CC=${CXX}  # [unix]
+    - EIGEN_INC=${PREFIX}/include/eigen3  # [unix]
+    - set EIGEN_INC=%LIBRARY_INC%\eigen3  # [win]
+    - BASICTOOLS_DISABLE_MKL=1
+    - BASICTOOLS_DISABLE_OPENMP=1
+  script: {{ PYTHON }} -m pip install --no-deps . -vv
+  entry_points:
+    - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
+
+  skip_compile_pyc:
+    "BasicToolsParaViewBridge.py"
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - python
+    - python  {{ python }}
+    - numpy >=1.20
     - pip
     - cython
-    - numpy
+    - eigency
+    - mkl
+    - mkl-include
     - eigen
+    - sympy
+    - setuptools-scm
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - scipy
+    - psutil
+    - pywin32  # [win]
+    - pyparsing
+    - scipy >=1.9
     - scikit-sparse  # [not win]
     - pyamg
     - sympy
     - h5py
-    - pyparsing
     - mpi4py  # [not win]
     - vtk
     - matplotlib-base
+    - eigency
+    - mkl
+    - pycgns
+    - networkx >=3.0  # [not win]
+    - meshio
+    - pyvista
+    - scikit-learn
+
 
 test:
+  requires:
+    - OpenSSH  # [linux]
+    - mesalib >=21.0  # [linux]
+    - {{ cdt('libx11-devel') }}  # [linux]
+    - {{ cdt('mesa-libgl-devel') }}  # [linux]
   imports:
     - BasicTools
+  commands :
+    - python -u -m BasicTools.Helpers.Tests -k Catalyst -k OpenInParaView -k PyVistaBridge -f  -s  # [not win]
+    - python -u -m BasicTools.Helpers.Tests -k Catalyst -k UnstructuredMeshGraphTools -k UtSplitter -k UtMerger -f -s  # [win]
 
 about:
   home: https://gitlab.com/DRTI/basic-tools
   license: BSD-3-Clause
   license_file: LICENSE.txt
   license_family: BSD
-  summary: Safran FE helper tools
+  summary: Tools for finite element computations
 
 extra:
   recipe-maintainers:
     - jschueller
+    - fbordeu
