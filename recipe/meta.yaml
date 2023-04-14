@@ -9,13 +9,11 @@ source:
   sha256: 3ea5f1bd192a1772bc20d92b8b85f6d4fa0ca278fd60ae0871618cd2aed570e5
 
 build:
-  number: 0
+  number: 1
   script_env:
     - CC=${CXX}  # [unix]
     - EIGEN_INC=${PREFIX}/include/eigen3  # [unix]
     - set EIGEN_INC=%LIBRARY_INC%\eigen3  # [win]
-    - BASICTOOLS_DISABLE_MKL=1
-    - BASICTOOLS_DISABLE_OPENMP=1
   script: {{ PYTHON }} -m pip install --no-deps . -vv
   entry_points:
     - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
@@ -40,19 +38,17 @@ requirements:
     - setuptools-scm
   run:
     - python
-    - {{ pin_compatible('numpy') }}
+    - {{ pin_compatible('eigency') }}
     - psutil
     - pywin32  # [win]
     - pyparsing
     - scipy >=1.9
-    - scikit-sparse  # [not win]
+    - scikit-sparse
     - pyamg
     - sympy
     - h5py
     - mpi4py  # [not win]
     - vtk
-    - matplotlib-base
-    - eigency
     - mkl
     - pycgns
     - networkx >=3.0  # [not win]
