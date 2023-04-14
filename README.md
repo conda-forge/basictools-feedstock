@@ -240,5 +240,4 @@ Feedstock Maintainers
 =====================
 
 * [@fbordeu](https://github.com/fbordeu/)
-* [@jschueller](https://github.com/jschueller/)
 
