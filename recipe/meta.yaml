@@ -9,7 +9,7 @@ source:
   sha256: 3ea5f1bd192a1772bc20d92b8b85f6d4fa0ca278fd60ae0871618cd2aed570e5
 
 build:
-  number: 2
+  number: 3
   script_env:
     - CC=${CXX}  # [unix]
     - EIGEN_INC=${PREFIX}/include/eigen3  # [unix]
@@ -19,7 +19,6 @@ build:
   script: {{ PYTHON }} -m pip install --no-deps . -vv
   entry_points:
     - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
-
   skip_compile_pyc:
     "BasicToolsParaViewBridge.py"
 
@@ -40,6 +39,7 @@ requirements:
     - setuptools-scm
   run:
     - python
+    - {{ pin_compatible('numpy') }}
     - sympy
     - eigency
     - psutil
