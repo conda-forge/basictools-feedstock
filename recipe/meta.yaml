@@ -9,7 +9,7 @@ source:
   sha256: 3ea5f1bd192a1772bc20d92b8b85f6d4fa0ca278fd60ae0871618cd2aed570e5
 
 build:
-  number: 3
+  number: 4
   script_env:
     - CC=${CXX}  # [unix]
     - EIGEN_INC=${PREFIX}/include/eigen3  # [unix]
@@ -28,8 +28,11 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - python
-    - numpy >=1.20
     - pip
+    - numpy =1.21  # [py==38]
+    - numpy =1.21  # [py==39]
+    - numpy =1.21  # [py==310]
+    - numpy =1.23  # [py==311]
     - cython
     - eigency
     - mkl
