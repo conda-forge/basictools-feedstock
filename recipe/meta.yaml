@@ -17,9 +17,8 @@ build:
     - MKL_NUM_THREADS=1
   script: {{ PYTHON }} -m pip install --no-deps . -vv
   entry_points:
-    - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
-  skip_compile_pyc:
-    "BasicToolsParaViewBridge.py"
+    - MeshFileConvert = BasicTools.IO.MeshFileConverter:Main
+  skip_compile_pyc: BasicToolsParaViewBridge.py
 
 requirements:
   build:
@@ -68,7 +67,7 @@ test:
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
   imports:
     - BasicTools
-  commands :
+  commands:
     - python -u -m BasicTools.Helpers.Tests -k Catalyst -k OpenInParaView -k PyVistaBridge -f  -s  # [not win]
     - python -u -m BasicTools.Helpers.Tests -k Catalyst -k UnstructuredMeshGraphTools -k UtSplitter -k UtMerger -k ConstraintsHolder -f -s  # [win]
 
