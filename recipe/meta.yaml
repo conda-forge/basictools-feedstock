@@ -1,4 +1,4 @@
-{% set version = "1.9.3" %}
+{% set version = "1.9.4" %}
 
 package:
   name: basictools
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: fc07b242608e2ffe5a766c6d6769515b6ca9fbc6544e73f88ec121a8282d70db
+  sha256: 57a5340ad702ff8cfbb4280a18a216496b90aaa82044e92e630a59bbe39b285c
 build:
   number: 0
   script_env:
