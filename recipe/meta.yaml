@@ -1,4 +1,4 @@
-{% set version = "1.9.4" %}
+{% set version = "1.9.5" %}
 
 package:
   name: basictools
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: 57a5340ad702ff8cfbb4280a18a216496b90aaa82044e92e630a59bbe39b285c
+  sha256: 7d3fb639bbf547ade7658579a51e82fa7d687e190b48e76fc4c2976d708186f9
 build:
   number: 0
   script_env:
@@ -54,7 +54,7 @@ requirements:
 #    - mpi4py  # [not win]
     - vtk
     - pycgns
-    - networkx >=3.0  # [not win]
+    - networkx >=3.0
     - meshio
     - pyvista
     - scikit-learn
@@ -70,7 +70,7 @@ test:
     - BasicTools
   commands :
     - python -u -m BasicTools.Helpers.Tests -k Catalyst -k OpenInParaView -k PyVistaBridge -f  -s  # [not win]
-    - python -u -m BasicTools.Helpers.Tests -k Catalyst -k UnstructuredMeshGraphTools -k UtSplitter -k UtMerger -k ConstraintsHolder -f -s  # [win]
+    - python -u -m BasicTools.Helpers.Tests -k Catalyst -k UtSplitter -k UtMerger -k ConstraintsHolder -f -s  # [win]
 
 about:
   home: https://gitlab.com/DRTI/basic-tools
