@@ -43,6 +43,7 @@ outputs:
         - numpy =1.21  # [py==39]
         - numpy =1.21  # [py==310]
         - numpy =1.23  # [py==311]
+        - cython
         - sympy
         - eigency
         - mkl
@@ -126,6 +127,7 @@ outputs:
       - networkx >=3.0
       - boost-cpp
       - pytest
+      - vtk
     test:
       imports:
         - numpy
