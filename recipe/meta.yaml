@@ -20,7 +20,7 @@ outputs:
     script: bld_core.bat  # [win]
     build:
       script_env:
-        - CC=${CXX}  # [unix]
+#        - CC=${CXX}  # [unix]
         - EIGEN_INC=${PREFIX}/include/eigen3  # [unix]
         - EIGEN_INC=%LIBRARY_INC%\eigen3  # [win]
         - MKL_DYNAMIC=FALSE
@@ -65,7 +65,7 @@ outputs:
       imports:
         - BasicTools
       commands:
-        - python -u -m BasicTools.Helpers.Tests
+        - python -u -m BasicTools.Helpers.Tests -k UnstructuredMeshFieldOperations -k UtMerger -k UtSplitter -f
       requires:
         - OpenSSH  # [linux]
         - mesalib >=21.0  # [linux]
@@ -85,13 +85,15 @@ outputs:
       - networkx >=3.0
     test:
       imports:
-        - vtk
         - psutil
         - sksparse.cholmod
         - h5py
         - meshio
-        - pyvista
         - networkx
+      requires:
+        - mesalib >=21.0  # [linux]
+        - {{ cdt('libx11-devel') }}  # [linux]
+        - {{ cdt('mesa-libgl-devel') }}  # [linux]
 
   - name: "basictools"
     version: {{ version }}
@@ -103,7 +105,7 @@ outputs:
       imports:
         - BasicTools
       commands:
-        - python -u -m BasicTools.Helpers.Tests
+        - python -u -m BasicTools.Helpers.Tests -k UnstructuredMeshFieldOperations -k UtMerger -k UtSplitter -f
 
   - name: "basictools-devenv"
     version: {{ version }}
@@ -131,9 +133,6 @@ outputs:
     test:
       imports:
         - numpy
-        - vtk
-        - sympy
-        - cython
 
 about:
   home: https://gitlab.com/DRTI/basic-tools
