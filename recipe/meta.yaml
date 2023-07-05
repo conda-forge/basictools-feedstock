@@ -1,4 +1,4 @@
-{% set version = "1.9.6" %}
+{% set version = "1.9.7rc1" %}
 
 package:
   name: basictools-split
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: fa2e2028fc8c285519e3239610429539ceefa37a97218c1ee8835a4f16d7242b
+  sha256: b73628fc7fdde96201756f8a173b13c1d7f55fb8acfae19f0b4fcb8793c7571e
 
 
 build:
@@ -20,11 +20,8 @@ outputs:
     script: bld_core.bat  # [win]
     build:
       script_env:
-#        - CC=${CXX}  # [unix]
-        - EIGEN_INC=${PREFIX}/include/eigen3  # [unix]
-        - EIGEN_INC=%LIBRARY_INC%\eigen3  # [win]
-        - MKL_DYNAMIC=FALSE
-        - MKL_NUM_THREADS=1
+        - BASICTOOLS_DISABLE_MKL=0
+        - BASICTOOLS_USE_EIGENCYEIGEN=0
       entry_points:
         - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
       skip_compile_pyc:
@@ -65,12 +62,7 @@ outputs:
       imports:
         - BasicTools
       commands:
-        - python -u -m BasicTools.Helpers.Tests -k UnstructuredMeshFieldOperations -k UtMerger -k UtSplitter -f
-      requires:
-        - OpenSSH  # [linux]
-        - mesalib >=21.0  # [linux]
-        - {{ cdt('libx11-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}  # [linux]
+        - python -u -m BasicTools.Helpers.Tests
 
   - name: "basictools-extensions"
     version: {{ version }}
@@ -90,10 +82,6 @@ outputs:
         - h5py
         - meshio
         - networkx
-      requires:
-        - mesalib >=21.0  # [linux]
-        - {{ cdt('libx11-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}  # [linux]
 
   - name: "basictools"
     version: {{ version }}
@@ -105,7 +93,7 @@ outputs:
       imports:
         - BasicTools
       commands:
-        - python -u -m BasicTools.Helpers.Tests -k UnstructuredMeshFieldOperations -k UtMerger -k UtSplitter -f
+        - python -u -m BasicTools.Helpers.Tests
 
   - name: "basictools-devenv"
     version: {{ version }}
