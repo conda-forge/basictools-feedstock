@@ -12,6 +12,7 @@ source:
 
 build:
   number: 0
+  skip: true # [py==38 and osx]
 
 outputs:
   - name: basictools-core
@@ -20,11 +21,8 @@ outputs:
     script: bld_core.bat  # [win]
     build:
       script_env:
-#        - CC=${CXX}  # [unix]
-        - EIGEN_INC=${PREFIX}/include/eigen3  # [unix]
-        - EIGEN_INC=%LIBRARY_INC%\eigen3  # [win]
-        - MKL_DYNAMIC=FALSE
-        - MKL_NUM_THREADS=1
+        - BASICTOOLS_DISABLE_MKL=0
+        - BASICTOOLS_USE_EIGENCYEIGEN=0
       entry_points:
         - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
       skip_compile_pyc:
@@ -65,12 +63,7 @@ outputs:
       imports:
         - BasicTools
       commands:
-        - python -u -m BasicTools.Helpers.Tests -k UnstructuredMeshFieldOperations -k UtMerger -k UtSplitter -f
-      requires:
-        - OpenSSH  # [linux]
-        - mesalib >=21.0  # [linux]
-        - {{ cdt('libx11-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}  # [linux]
+        - python -u -m BasicTools.Helpers.Tests
 
   - name: "basictools-extensions"
     version: {{ version }}
@@ -90,10 +83,6 @@ outputs:
         - h5py
         - meshio
         - networkx
-      requires:
-        - mesalib >=21.0  # [linux]
-        - {{ cdt('libx11-devel') }}  # [linux]
-        - {{ cdt('mesa-libgl-devel') }}  # [linux]
 
   - name: "basictools"
     version: {{ version }}
@@ -105,7 +94,7 @@ outputs:
       imports:
         - BasicTools
       commands:
-        - python -u -m BasicTools.Helpers.Tests -k UnstructuredMeshFieldOperations -k UtMerger -k UtSplitter -f
+        - python -u -m BasicTools.Helpers.Tests
 
   - name: "basictools-devenv"
     version: {{ version }}
