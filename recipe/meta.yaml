@@ -1,4 +1,4 @@
-{% set version = "1.9.7rc3" %}
+{% set version = "1.9.7rc4" %}
 
 package:
   name: basictools-split
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: 7670f33aaeca33c46a9329e6d7a7f7455be1643c02336cc18d4002095ad1abe9
+  sha256: 1148c8e90c45bbaaeba14c1b37facf5619ac8f51c46fac3b5fa922b9934410d3
 
 
 build:
