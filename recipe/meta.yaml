@@ -1,4 +1,4 @@
-{% set version = "1.9.5" %}
+{% set version = "1.9.7" %}
 
 package:
   name: basictools
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: 7d3fb639bbf547ade7658579a51e82fa7d687e190b48e76fc4c2976d708186f9
+  sha256: f2d1f9b4c4d91f4111dc0fbdfb085d0e3805018eae80e0fff520bb2b901b2a19
 build:
   number: 0
   script_env:
@@ -17,9 +17,8 @@ build:
     - MKL_NUM_THREADS=1
   script: {{ PYTHON }} -m pip install --no-deps . -vv
   entry_points:
-    - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
-  skip_compile_pyc:
-    "BasicToolsParaViewBridge.py"
+    - MeshFileConvert = BasicTools.IO.MeshFileConverter:Main
+  skip_compile_pyc: BasicToolsParaViewBridge.py
 
 requirements:
   build:
@@ -68,7 +67,7 @@ test:
     - {{ cdt('mesa-libgl-devel') }}  # [linux]
   imports:
     - BasicTools
-  commands :
+  commands:
     - python -u -m BasicTools.Helpers.Tests -k Catalyst -k OpenInParaView -k PyVistaBridge -f  -s  # [not win]
     - python -u -m BasicTools.Helpers.Tests -k Catalyst -k UtSplitter -k UtMerger -k ConstraintsHolder -f -s  # [win]
 
