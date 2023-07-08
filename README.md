@@ -1,5 +1,5 @@
-About basictools-feedstock
-==========================
+About basictools-split-feedstock
+================================
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/basictools-feedstock/blob/main/LICENSE.txt)
 
@@ -124,27 +124,30 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-basictools-green.svg)](https://anaconda.org/conda-forge/basictools) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/basictools.svg)](https://anaconda.org/conda-forge/basictools) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/basictools.svg)](https://anaconda.org/conda-forge/basictools) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/basictools.svg)](https://anaconda.org/conda-forge/basictools) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-basictools--core-green.svg)](https://anaconda.org/conda-forge/basictools-core) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/basictools-core.svg)](https://anaconda.org/conda-forge/basictools-core) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/basictools-core.svg)](https://anaconda.org/conda-forge/basictools-core) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/basictools-core.svg)](https://anaconda.org/conda-forge/basictools-core) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-basictools--devenv-green.svg)](https://anaconda.org/conda-forge/basictools-devenv) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/basictools-devenv.svg)](https://anaconda.org/conda-forge/basictools-devenv) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/basictools-devenv.svg)](https://anaconda.org/conda-forge/basictools-devenv) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/basictools-devenv.svg)](https://anaconda.org/conda-forge/basictools-devenv) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-basictools--extensions-green.svg)](https://anaconda.org/conda-forge/basictools-extensions) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/basictools-extensions.svg)](https://anaconda.org/conda-forge/basictools-extensions) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/basictools-extensions.svg)](https://anaconda.org/conda-forge/basictools-extensions) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/basictools-extensions.svg)](https://anaconda.org/conda-forge/basictools-extensions) |
 
-Installing basictools
-=====================
+Installing basictools-split
+===========================
 
-Installing `basictools` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `basictools-split` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `basictools` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `basictools, basictools-core, basictools-devenv, basictools-extensions` can be installed with `conda`:
 
 ```
-conda install basictools
+conda install basictools basictools-core basictools-devenv basictools-extensions
 ```
 
 or with `mamba`:
 
 ```
-mamba install basictools
+mamba install basictools basictools-core basictools-devenv basictools-extensions
 ```
 
 It is possible to list all of the versions of `basictools` available on your platform with `conda`:
@@ -214,17 +217,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating basictools-feedstock
-=============================
+Updating basictools-split-feedstock
+===================================
 
-If you would like to improve the basictools recipe or build a new
+If you would like to improve the basictools-split recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/basictools-feedstock are
+Note that all branches in the conda-forge/basictools-split-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.

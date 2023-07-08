@@ -1,76 +1,127 @@
-{% set version = "1.9.5" %}
+{% set version = "1.9.7" %}
 
 package:
-  name: basictools
+  name: basictools-split
   version: {{ version }}
+
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: 7d3fb639bbf547ade7658579a51e82fa7d687e190b48e76fc4c2976d708186f9
+  sha256: f2d1f9b4c4d91f4111dc0fbdfb085d0e3805018eae80e0fff520bb2b901b2a19
+
+
 build:
   number: 0
-  script_env:
-    - CC=${CXX}  # [unix]
-    - EIGEN_INC=${PREFIX}/include/eigen3  # [unix]
-    - EIGEN_INC=%LIBRARY_INC%\eigen3  # [win]
-    - MKL_DYNAMIC=FALSE
-    - MKL_NUM_THREADS=1
-  script: {{ PYTHON }} -m pip install --no-deps . -vv
-  entry_points:
-    - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
-  skip_compile_pyc:
-    "BasicToolsParaViewBridge.py"
+  skip: True  # [py==38 and osx]
 
-requirements:
-  build:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-  host:
-    - python
-    - pip
-    - numpy =1.21  # [py==38]
-    - numpy =1.21  # [py==39]
-    - numpy =1.21  # [py==310]
-    - numpy =1.23  # [py==311]
-    - cython
-    - eigency
-    - mkl
-    - mkl-include
-    - eigen
-    - sympy
-    - setuptools-scm
-  run:
-    - python
-    - {{ pin_compatible('numpy') }}
-    - sympy
-    - eigency
-    - psutil
-    - pywin32  # [win]
-    - pyparsing
-    - scipy >=1.9
-    - scikit-sparse
-    - pyamg
-    - h5py
-#    - mpi4py  # [not win]
-    - vtk
-    - pycgns
-    - networkx >=3.0
-    - meshio
-    - pyvista
-    - scikit-learn
+outputs:
+  - name: basictools-core
+    version: {{ version }}
+    script: build_core.sh  # [not win]
+    script: bld_core.bat  # [win]
+    build:
+      script_env:
+        - BASICTOOLS_DISABLE_MKL=0
+        - BASICTOOLS_USE_EIGENCYEIGEN=0
+      entry_points:
+        - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
+      skip_compile_pyc:
+        "BasicToolsParaViewBridge.py"
 
+    requirements:
+      build:
+        - python
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cython
+      host:
+        - python
+        - numpy =1.21  # [py==38]
+        - numpy =1.21  # [py==39]
+        - numpy =1.21  # [py==310]
+        - numpy =1.23  # [py==311]
+        - cython
+        - sympy
+        - eigency
+        - mkl
+        - mkl-include
+        - setuptools-scm
+        - eigen
+        - boost-cpp
+        - pip
+      run:
+        - python
+        - {{ pin_compatible('numpy') }}
+        - scipy >=1.9
+        - sympy
+        - eigency
+        - mkl
+        - networkx >=3.0
+        - scikit-sparse
+    test:
+      imports:
+        - BasicTools
+      commands:
+        - python -u -m BasicTools.Helpers.Tests
 
-test:
-  requires:
-    - OpenSSH  # [linux]
-    - mesalib >=21.0  # [linux]
-    - {{ cdt('libx11-devel') }}  # [linux]
-    - {{ cdt('mesa-libgl-devel') }}  # [linux]
-  imports:
-    - BasicTools
-  commands :
-    - python -u -m BasicTools.Helpers.Tests -k Catalyst -k OpenInParaView -k PyVistaBridge -f  -s  # [not win]
-    - python -u -m BasicTools.Helpers.Tests -k Catalyst -k UtSplitter -k UtMerger -k ConstraintsHolder -f -s  # [win]
+  - name: "basictools-extensions"
+    version: {{ version }}
+    requirements:
+      - python
+      - vtk
+      - psutil
+      - scikit-sparse
+      - h5py
+      - meshio
+      - pyvista
+      - networkx >=3.0
+    test:
+      imports:
+        - psutil
+        - sksparse.cholmod
+        - h5py
+        - meshio
+        - networkx
+
+  - name: "basictools"
+    version: {{ version }}
+    requirements:
+      run:
+        - {{ pin_subpackage('basictools-core', exact=True) }}
+        - {{ pin_subpackage('basictools-extensions', exact=True) }}
+    test:
+      imports:
+        - BasicTools
+      commands:
+        - python -u -m BasicTools.Helpers.Tests
+
+  - name: "basictools-devenv"
+    version: {{ version }}
+    requirements:
+      - {{ compiler('c') }}
+      - {{ compiler('cxx') }}
+      - python {{ python }}
+      - numpy >=1.20
+      - sympy
+      - cython
+      - eigency
+      - mkl
+      - mkl-include
+      - setuptools-scm
+      - eigen
+      - scipy >=1.9
+      - eigency
+      - scikit-sparse
+      - h5py
+      - pycgns
+      - networkx >=3.0
+      - boost-cpp
+      - pytest
+      - vtk
+    test:
+      imports:
+        - numpy
 
 about:
   home: https://gitlab.com/DRTI/basic-tools
