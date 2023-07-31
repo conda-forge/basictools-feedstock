@@ -1,4 +1,4 @@
-{% set version = "1.9.7" %}
+{% set version = "1.9.8rc1" %}
 
 package:
   name: basictools-split
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: f2d1f9b4c4d91f4111dc0fbdfb085d0e3805018eae80e0fff520bb2b901b2a19
+  sha256: 3e05758b636178887eb4db313778770d6ee43b8e619cb510f94bea939c9ddaf6
 
 
 build:
@@ -68,14 +68,29 @@ outputs:
   - name: "basictools-extensions"
     version: {{ version }}
     requirements:
-      - python
-      - vtk
-      - psutil
-      - scikit-sparse
-      - h5py
-      - meshio
-      - pyvista
-      - networkx >=3.0
+      host:
+        - python
+        - numpy =1.21  # [py==38]
+        - numpy =1.21  # [py==39]
+        - numpy =1.21  # [py==310]
+        - numpy =1.23  # [py==311]
+        - vtk
+        - psutil
+        - scikit-sparse
+        - h5py
+        - meshio
+        - pyvista
+        - networkx >=3.0
+      run:
+        - python
+        - {{ pin_compatible('numpy') }}
+        - vtk
+        - psutil
+        - scikit-sparse
+        - h5py
+        - meshio
+        - pyvista
+        - networkx >=3.0
     test:
       imports:
         - psutil
@@ -101,8 +116,8 @@ outputs:
     requirements:
       - {{ compiler('c') }}
       - {{ compiler('cxx') }}
-      - python {{ python }}
-      - numpy >=1.20
+      - python
+      - {{ pin_compatible('numpy') }}
       - sympy
       - cython
       - eigency
