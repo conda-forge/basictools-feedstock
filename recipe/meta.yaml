@@ -1,4 +1,4 @@
-{% set version = "1.9.7" %}
+{% set version = "1.9.8" %}
 
 package:
   name: basictools-split
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: f2d1f9b4c4d91f4111dc0fbdfb085d0e3805018eae80e0fff520bb2b901b2a19
+  sha256: dedf52ee7ccd30d6474c8264ab8dd104a2158bde8eb73ada3a42d903c84a0ba4
 
 
 build:
@@ -34,14 +34,14 @@ outputs:
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - cython
+        - cython <3
       host:
         - python
         - numpy =1.21  # [py==38]
         - numpy =1.21  # [py==39]
         - numpy =1.21  # [py==310]
         - numpy =1.23  # [py==311]
-        - cython
+        - cython <3
         - sympy
         - eigency
         - mkl
@@ -68,14 +68,29 @@ outputs:
   - name: "basictools-extensions"
     version: {{ version }}
     requirements:
-      - python
-      - vtk
-      - psutil
-      - scikit-sparse
-      - h5py
-      - meshio
-      - pyvista
-      - networkx >=3.0
+      host:
+        - python
+        - numpy =1.21  # [py==38]
+        - numpy =1.21  # [py==39]
+        - numpy =1.21  # [py==310]
+        - numpy =1.23  # [py==311]
+        - vtk
+        - psutil
+        - scikit-sparse
+        - h5py
+        - meshio
+        - pyvista
+        - networkx >=3.0
+      run:
+        - python
+        - {{ pin_compatible('numpy') }}
+        - vtk
+        - psutil
+        - scikit-sparse
+        - h5py
+        - meshio
+        - pyvista
+        - networkx >=3.0
     test:
       imports:
         - psutil
@@ -101,10 +116,10 @@ outputs:
     requirements:
       - {{ compiler('c') }}
       - {{ compiler('cxx') }}
-      - python {{ python }}
-      - numpy >=1.20
+      - python
+      - {{ pin_compatible('numpy') }}
       - sympy
-      - cython
+      - cython <3
       - eigency
       - mkl
       - mkl-include
