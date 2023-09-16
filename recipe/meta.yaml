@@ -1,13 +1,13 @@
-{% set version = "1.9.8" %}
+{% set version = "2.0.0rc0" %}
 
 package:
-  name: basictools-split
+  name: muscat
   version: {{ version }}
 
 
 source:
-  url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: dedf52ee7ccd30d6474c8264ab8dd104a2158bde8eb73ada3a42d903c84a0ba4
+  url: https://gitlab.com/drti/muscat/-/archive/{{ version }}/muscat-{{ version }}.tar.bz2
+  sha256: 5dd7a32d10968c5acfedafd9b6c2d274e1f8d808c45435d1b748019170fe5b9d
 
 
 build:
@@ -15,24 +15,20 @@ build:
   skip: True  # [py==38 and osx]
 
 outputs:
-  - name: basictools-core
+  - name: muscat-core
     version: {{ version }}
     script: build_core.sh  # [not win]
     script: bld_core.bat  # [win]
     build:
-      script_env:
-        - BASICTOOLS_DISABLE_MKL=0
-        - BASICTOOLS_USE_EIGENCYEIGEN=0
       entry_points:
-        - "MeshFileConvert = BasicTools.IO.MeshFileConverter:Main"
+        - "MeshFileConvert = Muscat.IO.MeshFileConverter:Main"
       skip_compile_pyc:
-        "BasicToolsParaViewBridge.py"
+        "MuscatParaViewPlugin.py"
 
     requirements:
       build:
         - python
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - cython <3
       host:
@@ -61,11 +57,11 @@ outputs:
         - scikit-sparse
     test:
       imports:
-        - BasicTools
+        - Muscat
       commands:
-        - python -u -m BasicTools.Helpers.Tests
+        - python -u -m Muscat.Helpers.Check
 
-  - name: "basictools-extensions"
+  - name: "muscat-extensions"
     version: {{ version }}
     requirements:
       host:
@@ -99,22 +95,21 @@ outputs:
         - meshio
         - networkx
 
-  - name: "basictools"
+  - name: "muscat"
     version: {{ version }}
     requirements:
       run:
-        - {{ pin_subpackage('basictools-core', exact=True) }}
-        - {{ pin_subpackage('basictools-extensions', exact=True) }}
+        - {{ pin_subpackage('muscat-core', exact=True) }}
+        - {{ pin_subpackage('muscat-extensions', exact=True) }}
     test:
       imports:
-        - BasicTools
+        - Muscat
       commands:
-        - python -u -m BasicTools.Helpers.Tests
+        - python -u -m Muscat.Helpers.Check
 
-  - name: "basictools-devenv"
+  - name: "muscat-devenv"
     version: {{ version }}
     requirements:
-      - {{ compiler('c') }}
       - {{ compiler('cxx') }}
       - python
       - {{ pin_compatible('numpy') }}
@@ -139,7 +134,7 @@ outputs:
         - numpy
 
 about:
-  home: https://gitlab.com/DRTI/basic-tools
+  home: https://gitlab.com/drti/muscat
   license: BSD-3-Clause
   license_file: LICENSE.txt
   license_family: BSD
