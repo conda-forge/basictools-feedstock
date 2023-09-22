@@ -1,4 +1,4 @@
-{% set version = "1.9.8" %}
+{% set version = "1.9.9" %}
 
 package:
   name: basictools-split
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: dedf52ee7ccd30d6474c8264ab8dd104a2158bde8eb73ada3a42d903c84a0ba4
+  sha256: 0c4307847fbae20841402141a1112ef436fbde2310b0565112c2666b68c032bc
 
 
 build:
-  number: 1
+  number: 0
   skip: True  # [py==38 and osx]
 
 outputs:
@@ -103,8 +103,8 @@ outputs:
     version: {{ version }}
     requirements:
       run:
-        - {{ pin_subpackage('basictools-core', exact=True) }}
-        - {{ pin_subpackage('basictools-extensions', exact=True) }}
+        - {{ pin_subpackage('basictools-core', max_pin='x.x') }}
+        - {{ pin_subpackage('basictools-extensions', max_pin='x.x') }}
     test:
       imports:
         - BasicTools
