@@ -65,7 +65,7 @@ outputs:
       commands:
         - python -u -m BasicTools.Helpers.Tests
 
-  - name: "basictools-extensions"
+  - name: basictools-extensions
     version: {{ version }}
     requirements:
       host:
@@ -99,7 +99,7 @@ outputs:
         - meshio
         - networkx
 
-  - name: "basictools"
+  - name: basictools
     version: {{ version }}
     requirements:
       run:
@@ -111,7 +111,7 @@ outputs:
       commands:
         - python -u -m BasicTools.Helpers.Tests
 
-  - name: "basictools-devenv"
+  - name: basictools-devenv
     version: {{ version }}
     requirements:
       - {{ compiler('c') }}
