@@ -11,7 +11,7 @@ source:
 
 
 build:
-  number: 1
+  number: 2
   skip: True  # [py==38 and osx]
 
 outputs:
@@ -48,7 +48,7 @@ outputs:
         - mkl-include
         - setuptools-scm
         - eigen
-        - boost-cpp
+        - libboost-headers
         - pip
       run:
         - python
@@ -65,7 +65,7 @@ outputs:
       commands:
         - python -u -m BasicTools.Helpers.Tests
 
-  - name: "basictools-extensions"
+  - name: basictools-extensions
     version: {{ version }}
     requirements:
       host:
@@ -99,7 +99,7 @@ outputs:
         - meshio
         - networkx
 
-  - name: "basictools"
+  - name: basictools
     version: {{ version }}
     requirements:
       run:
@@ -111,7 +111,7 @@ outputs:
       commands:
         - python -u -m BasicTools.Helpers.Tests
 
-  - name: "basictools-devenv"
+  - name: basictools-devenv
     version: {{ version }}
     requirements:
       - {{ compiler('c') }}
@@ -131,7 +131,7 @@ outputs:
       - h5py
       - pycgns
       - networkx >=3.0
-      - boost-cpp
+      - libboost-headers
       - pytest
       - vtk
     test:
