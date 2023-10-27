@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://gitlab.com/DRTI/basic-tools/-/archive/{{ version }}/basic-tools-{{ version }}.tar.bz2
-  sha256: 282137cf3ba66cd7a2c3c87b5e0fe45a2a09d9aeab035f8ed2cf16ae7fed2d69
+  sha256: 7e33d8cbe55a06d156fa5ec7f5c71eac52b249977026441027dc3bf38c90442d
 
 build:
   number: 0
